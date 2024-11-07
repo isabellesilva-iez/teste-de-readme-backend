@@ -1,84 +1,102 @@
-# Documentação da API Simfonia em Golang com Gin
+# Aplicação Mobile - Backend
 
 <br />
 
 ## Índice
 
 1. [Introdução](#introducao)
-2. [Estrutura do Projeto](#estrutura-do-projeto)
-3. [Configuração](#configuracao)
-    - 3.1 [Banco de Dados](#banco-de-dados)
-    - 3.2 [Docker Compose](#docker-compose)
-4. [Endpoints da API](#endpoints-da-api)
-   - 4.1. [Cidades](#cidades)
-        - 4.1.1. [GET /simfonia/api/cidades/:id](#get-apicidadeid)
-        - 4.1.2. [GET /simfonia/api/cidades/nome](#get-apicidadenome)
-        - 4.1.3. [GET /simfonia/api/cidades/](#get-apiallcidades)
-        - 4.1.4. [GET /simfonia/api/cidades/csv](#get-apiallcidadescsv)
-        - 4.1.5. [POST /simfonia/api/cidades/](#post-apicreatecidade)
-        - 4.1.6. [POST /simfonia/api/cidades/csv](#post-apicreatecidadecsv)
-        - 4.1.7. [PUT /simfonia/api/cidades/:id](#put-apiupdatecidade)
-        - 4.1.8. [DELETE /simfonia/api/cidades/:id](#delete-apideletecidadeid)
-    - 4.2. [Números Telefônicos](#numeros-telefonicos)
-        - 4.2.1. [GET /simfonia/api/numerostelefonicos/:id](#get-apinumerosid)
-        - 4.2.2. [GET /simfonia/api/numerostelefonicos/numero](#get-apinumerosnumero)
-        - 4.2.3. [GET /simfonia/api/numerostelefonicos/simcard/:id](#get-apinumerossimcardid)
-        - 4.2.4. [GET /simfonia/api/numerostelefonicos/simcard](#get-apinumerossimcard)
-        - 4.2.5. [GET /simfonia/api/numerostelefonicos/](#get-apiallnumeros)
-        - 4.2.6. [GET /simfonia/api/numerostelefonicos/csv](#get-apiallnumeroscsv)
-        - 4.2.7. [POST /simfonia/api/numerostelefonicos/](#post-apicreatenumero)
-        - 4.2.8. [POST /simfonia/api/numerostelefonicos/csv](#post-apicreatenumerocsv)
-        - 4.2.9. [PUT /simfonia/api/numerostelefonicos/:id](#put-apiupdatenumero)
-        - 4.2.10. [DELETE /simfonia/api/numerostelefonicos/:id](#delete-apideletenumeroid)
-    - 4.3. [Operadoras](#operadoras)
-        - 4.3.1. [GET /simfonia/api/operadoras/:id](#get-apioperadorasid)
-        - 4.3.2. [GET /simfonia/api/operadoras/nome](#get-apioperadorasnome)
-        - 4.3.3. [GET /simfonia/api/operadoras/abreviacao](#get-apioperadorasabreviacao)
-        - 4.3.4. [GET /simfonia/api/operadoras/](#get-apialloperadoras)
-        - 4.3.5. [GET /simfonia/api/operadoras/csv](#get-apialloperadorascsv)
-        - 4.3.6. [POST /simfonia/api/operadoras/](#post-apicreateoperadoras)
-        - 4.3.7. [POST /simfonia/api/operadoras/csv](#post-apicreateoperadorascsv)
-        - 4.3.8. [PUT /simfonia/api/operadoras/:id](#put-apiupdateoperadoras)
-        - 4.3.9 [DELETE /simfonia/api/operadoras/:id](#delete-apideleteoperadorasid)
-    - 4.4. [SimCard](#simCard)
-        - 4.4.1. [GET /simfonia/api/simcard/:id](#get-apisimcardid)
-        - 4.4.2. [GET /simfonia/api/simcard/telefonianumero/:id](#get-apisimcardnumeroid)
-        - 4.4.3. [GET /simfonia/api/simcard/telefonianumero](#get-apisimcardnumero)
-        - 4.4.4. [GET /simfonia/api/simcard/](#get-apiallsimcard)
-        - 4.4.5. [GET /simfonia/api/simcard/csv](#get-apiallsimcardcsv)
-        - 4.4.6. [POST /simfonia/api/simcard/](#post-apicreateosimcard)
-        - 4.4.7. [POST /simfonia/api/simcard/csv](#post-apicreatesimcardcsv)
-        - 4.4.8. [PUT /simfonia/api/simcard/:id](#put-apiupdatesimcard)
-        - 4.4.9. [DELETE /simfonia/api/simcard/:id](#delete-apideletesimcardid)   
-    - 4.5. [Estados SimCard](#simCard-estados)
-        - 4.5.1. [GET /simfonia/api/simcardestado/:id](#get-apisimcardestadoid)
-        - 4.5.2. [GET /simfonia/api/simcardestado/estado](#get-apisimcardestadoestado)
-        - 4.5.3. [GET /simfonia/api/simcardestado/](#get-apiallsimcardestado)
-        - 4.5.4. [GET /simfonia/api/simcardestado/csv](#get-apiallsimcardestadocsv)
-        - 4.5.5. [POST /simfonia/api/simcardestado/](#post-apicreateosimcardestado)
-        - 4.5.6. [POST /simfonia/api/simcardestado/csv](#post-apicreatesimcardestadocsv)
-        - 4.5.7. [PUT /simfonia/api/simcardestado/:id](#put-apiupdatesimcardestado)
-        - 4.5.8. [DELETE /simfonia/api/simcardestado/:id](#delete-apideletesimcardestadoid)   
-5. [Modelos de Dados](#modelos-de-dados)
-    - 5.1. [Cidades](#modelo-cidade)
-    - 5.2. [Números Telefônicos](#modelo-numerotelefonico)
-    - 5.3. [Operadoras](#modelo-operadoras)
-    - 5.4. [SimCards](#modelo-simcards)
-    - 5.5. [Estados SimCards](#modelo-simcardestado)
-6. [Serviços](#serviços)
-    - 6.1. [CidadeService](#cidadeService)
-    - 6.2. [NumeroTelefonicoService](#numerosTelefonicosService)
-    - 6.3. [OperadoraService](#operadorasService)
-    - 6.4. [SimCardService](#simCardService)
-    - 6.5. [SimCardEstadoService](#simCardEstadoService)
-7. [Controladores](#controladores)
-8. [Instruções para Execução](#instruções-para-execução)
+2. [Tecnologias Utilizadas](#tecnologias)
+3. [Estrutura do Projeto](#estrutura-do-projeto)
+4. [Configuração](#configuracao)
+    - 4.1 [Banco de Dados](#banco-de-dados)
+    - 4.2 [Docker Compose](#docker-compose)
+5. [Endpoints da API](#endpoints-da-api)
+   - 5.1. [Cidades](#cidades)
+        - 5.1.1. [GET /simfonia/api/cidades/:id](#get-apicidadeid)
+        - 5.1.2. [GET /simfonia/api/cidades/nome](#get-apicidadenome)
+        - 5.1.3. [GET /simfonia/api/cidades/](#get-apiallcidades)
+        - 5.1.4. [GET /simfonia/api/cidades/csv](#get-apiallcidadescsv)
+        - 5.1.5. [POST /simfonia/api/cidades/](#post-apicreatecidade)
+        - 5.1.6. [POST /simfonia/api/cidades/csv](#post-apicreatecidadecsv)
+        - 5.1.7. [PUT /simfonia/api/cidades/:id](#put-apiupdatecidade)
+        - 5.1.8. [DELETE /simfonia/api/cidades/:id](#delete-apideletecidadeid)
+    - 5.2. [Números Telefônicos](#numeros-telefonicos)
+        - 5.2.1. [GET /simfonia/api/numerostelefonicos/:id](#get-apinumerosid)
+        - 5.2.2. [GET /simfonia/api/numerostelefonicos/numero](#get-apinumerosnumero)
+        - 5.2.3. [GET /simfonia/api/numerostelefonicos/simcard/:id](#get-apinumerossimcardid)
+        - 5.2.4. [GET /simfonia/api/numerostelefonicos/simcard](#get-apinumerossimcard)
+        - 5.2.5. [GET /simfonia/api/numerostelefonicos/](#get-apiallnumeros)
+        - 5.2.6. [GET /simfonia/api/numerostelefonicos/csv](#get-apiallnumeroscsv)
+        - 5.2.7. [POST /simfonia/api/numerostelefonicos/](#post-apicreatenumero)
+        - 5.2.8. [POST /simfonia/api/numerostelefonicos/csv](#post-apicreatenumerocsv)
+        - 5.2.9. [PUT /simfonia/api/numerostelefonicos/:id](#put-apiupdatenumero)
+        - 5.2.10. [DELETE /simfonia/api/numerostelefonicos/:id](#delete-apideletenumeroid)
+    - 5.3. [Operadoras](#operadoras)
+        - 5.3.1. [GET /simfonia/api/operadoras/:id](#get-apioperadorasid)
+        - 5.3.2. [GET /simfonia/api/operadoras/nome](#get-apioperadorasnome)
+        - 5.3.3. [GET /simfonia/api/operadoras/abreviacao](#get-apioperadorasabreviacao)
+        - 5.3.4. [GET /simfonia/api/operadoras/](#get-apialloperadoras)
+        - 5.3.5. [GET /simfonia/api/operadoras/csv](#get-apialloperadorascsv)
+        - 5.3.6. [POST /simfonia/api/operadoras/](#post-apicreateoperadoras)
+        - 5.3.7. [POST /simfonia/api/operadoras/csv](#post-apicreateoperadorascsv)
+        - 5.3.8. [PUT /simfonia/api/operadoras/:id](#put-apiupdateoperadoras)
+        - 5.3.9 [DELETE /simfonia/api/operadoras/:id](#delete-apideleteoperadorasid)
+    - 5.4. [SimCard](#simCard)
+        - 5.4.1. [GET /simfonia/api/simcard/:id](#get-apisimcardid)
+        - 5.4.2. [GET /simfonia/api/simcard/telefonianumero/:id](#get-apisimcardnumeroid)
+        - 5.4.3. [GET /simfonia/api/simcard/telefonianumero](#get-apisimcardnumero)
+        - 5.4.4. [GET /simfonia/api/simcard/](#get-apiallsimcard)
+        - 5.4.5. [GET /simfonia/api/simcard/csv](#get-apiallsimcardcsv)
+        - 5.4.6. [POST /simfonia/api/simcard/](#post-apicreatesimcard)
+        - 5.4.7. [POST /simfonia/api/simcard/csv](#post-apicreatesimcardcsv)
+        - 5.4.8. [PUT /simfonia/api/simcard/:id](#put-apiupdatesimcard)
+        - 5.4.9. [DELETE /simfonia/api/simcard/:id](#delete-apideletesimcardid)   
+    - 5.5. [Estados SimCard](#simCard-estados)
+        - 5.5.1. [GET /simfonia/api/simcardestado/:id](#get-apisimcardestadoid)
+        - 5.5.2. [GET /simfonia/api/simcardestado/estado](#get-apisimcardestadoestado)
+        - 5.5.3. [GET /simfonia/api/simcardestado/](#get-apiallsimcardestado)
+        - 5.5.4. [GET /simfonia/api/simcardestado/csv](#get-apiallsimcardestadocsv)
+        - 5.5.5. [POST /simfonia/api/simcardestado/](#post-apicreatesimcardestado)
+        - 5.5.6. [POST /simfonia/api/simcardestado/csv](#post-apicreatesimcardestadocsv)
+        - 5.5.7. [PUT /simfonia/api/simcardestado/:id](#put-apiupdatesimcardestado)
+        - 5.5.8. [DELETE /simfonia/api/simcardestado/:id](#delete-apideletesimcardestadoid)   
+6. [Modelos de Dados](#modelos-de-dados)
+    - 6.1. [Cidades](#modelo-cidade)
+    - 6.2. [Números Telefônicos](#modelo-numerotelefonico)
+    - 6.3. [Operadoras](#modelo-operadoras)
+    - 6.4. [SimCards](#modelo-simcards)
+    - 6.5. [Estados SimCards](#modelo-simcardestado)
+7. [Serviços](#servicos)
+    - 7.1. [CidadeService](#cidadeService)
+    - 7.2. [NumeroTelefonicoService](#numerosTelefonicosService)
+    - 7.3. [OperadoraService](#operadorasService)
+    - 7.4. [SimCardService](#simCardService)
+    - 7.5. [SimCardEstadoService](#simCardEstadoService)
+8. [Controladores](#controladores)
+9. [Instruções para Execução](#instrucoes-para-execucao)
 
-<h2>1. Introdução</h3>
+<br />
+
+<span id="introducao">
+    
+## 1. Introdução
 
 Esta documentação descreve uma API CRUD desenvolvida em Golang usando o framework Gin. A API permite criar, ler, atualizar e excluir usuários em um banco de dados PostgreSQL.
 
-<h2>2. Estrutura do Projeto</h3>
+<br />
+
+<span id="tecnologias">
+    
+## 2. Tecnologias Utilizadas
+
+<img src="https://img.shields.io/badge/Golang-CED4DA?style=for-the-badge&logo=go&logoColor=79d4fd" alt="Figma" /> 
+
+<br />
+<br />
+
+<span id="estrutura-do-projeto">
+
+## 3. Estrutura do Projeto
 
 ```plaintext
 app/
@@ -118,9 +136,15 @@ app/
 
 ```
 
-<h2 id="configuracao">Configuração</h3>
+<br />
 
-<h3 id="banco-de-dados">Banco de Dados</h3>
+<span id="configuracao">
+
+# 4. Configuração
+
+<span id="banco-de-dados">
+
+## 4.1 Banco de Dados
 
 A configuração do banco de dados está definida no arquivo `db/connection.go`. Um banco de dados PostgreSQL é utilizado, com as seguintes credenciais:
 
@@ -130,7 +154,9 @@ A configuração do banco de dados está definida no arquivo `db/connection.go`.
 - **Porta**: 5432
 - **Nome do Banco de Dados**: postgres (será criado um banco de dados chamado `usuario`)
 
-<h3 id="docker-compose">Docker Compose</h3>
+<span id="docker-compose">
+
+## 4.2 Docker Compose
 
 Para rodar o banco de dados PostgreSQL e o Adminer, você pode usar o seguinte arquivo `docker-compose.yml`:
 
@@ -155,13 +181,21 @@ services:
       - "8080:8080"
 ```
 
-## Endpoints da API
+<br />
 
-<h3 id="cidades">Cidades</h3>
+<span id="endpoints-da-api">
 
-<h4 id="get-apicidadeid">GET /simfonia/api/cidades/:id</h3>
+# 5. Endpoints da API
 
-##### Descrição
+<span id="cidades">
+
+## 5.1 Cidades 
+
+<span id="get-apicidadeid">
+
+### 5.1.1. GET /simfonia/api/cidades/:id
+
+#### Descrição
 
 Recupera uma cidade pelo ID.
 
@@ -184,13 +218,15 @@ GET /simfonia/api/cidades/2
 }
 ```
 
-<h4 id="get-apicidadenome">GET /simfonia/api/cidades/nome</h3>
+<span id="get-apicidadenome">
 
-##### Descrição
+### 5.1.2. GET /simfonia/api/cidades/nome
+
+#### Descrição
 
 Recupera uma cidade pelo nome.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```json
 {
@@ -211,13 +247,15 @@ Recupera uma cidade pelo nome.
 }
 ```
 
-<h4 id="get-apiallcidades">GET /simfonia/api/cidades/</h3>
+<span id="get-apiallcidades">
 
-##### Descrição
+### 5.1.3. GET /simfonia/api/cidades/
+
+#### Descrição
 
 Recupera todas as cidades do banco.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```http
 GET simfonia/api/cidades/
@@ -246,19 +284,21 @@ GET simfonia/api/cidades/
 ]
 ```
 
-<h4 id="get-apiallcidadescsv">GET /simfonia/api/cidades/csv</h3>
+<span id="get-apiallcidadescsv">
 
-##### Descrição
+### 5.1.4. GET /simfonia/api/cidades/csv
+
+#### Descrição
 
 Recupera todas as cidades do banco e exporta em um arquivo `.csv`.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```http
 GET /simfonia/api/cidades/csv
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```csv
     ID,UUID,Nome,CodIBGE,UF,CodArea
@@ -273,13 +313,15 @@ GET /simfonia/api/cidades/csv
     10,35abfd59-ce53-4986-a981-efd1f63d8657,Mâncio Lima,1200336,AC,68
 ```
 
-<h4 id="post-apicreatecidade">POST /simfonia/api/cidades/</h3>
+<span id="post-apicreatecidade">
 
-##### Descrição
+### 5.1.5. POST /simfonia/api/cidades/
+
+#### Descrição
 
 Cria uma nova cidade.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```json
 
@@ -305,13 +347,15 @@ Cria uma nova cidade.
 }
 ```
 
-<h4 id="post-apicreatecidadecsv">POST /simfonia/api/cidades/csv</h3>
+<span id="post-apicreatecidadecsv">
 
-##### Descrição
+### 5.1.6. POST /simfonia/api/cidades/csv
+
+#### Descrição
 
 Cria novas cidades em lote, baseados em um arquivo `.csv`.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```csv
     UUID,Nome,CodIBGE,UF,CodArea
@@ -330,7 +374,7 @@ Cria novas cidades em lote, baseados em um arquivo `.csv`.
     csv: *arquivo*
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```json
 {
@@ -338,13 +382,15 @@ Cria novas cidades em lote, baseados em um arquivo `.csv`.
 }
 ```
 
-<h4 id="put-apiupdatecidade">PUT /simfonia/api/cidades/:id</h3>
+<span id="put-apiupdatecidade">
 
-##### Descrição
+### 5.1.7. PUT /simfonia/api/cidades/:id
+
+#### Descrição
 
 Atualiza uma cidade existente pelo ID.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```http
     PUT simfonia/api/cidades/1
@@ -360,7 +406,7 @@ Atualiza uma cidade existente pelo ID.
 }
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```json
 {
@@ -373,19 +419,21 @@ Atualiza uma cidade existente pelo ID.
 }
 ```
 
-<h4 id="delete-apideletecidadeid">DELETE /simfonia/api/cidades/:id</h3>
+<span id="delete-apideletecidadeid">
 
-##### Descrição
+### 5.1.8. DELETE /simfonia/api/cidades/:id
+
+#### Descrição
 
 Exclui uma cidade pelo ID.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```http
 DELETE /simfonia/api/cidades/1
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```json
 {
@@ -393,11 +441,15 @@ DELETE /simfonia/api/cidades/1
 }
 ```
 
-<h3 id="numeros-telefonicos">Números Telefônicos</h3>
+<span id="numeros-telefonicos">
 
-<h4 id="get-apinumerosid">GET /simfonia/api/numerostelefonicos/:id</h3>
+## 5.2. Números Telefônicos
 
-##### Descrição
+<span id="get-apinumerosid">
+
+### 5.2.1. GET /simfonia/api/numerostelefonicos/:id
+
+#### Descrição
 
 Recupera um número telefônico pelo ID.
 
@@ -434,13 +486,15 @@ GET /simfonia/api/numerostelefonicos/2
 }
 ```
 
-<h4 id="get-apinumerosnumero">GET /simfonia/api/numerostelefonicos/numero</h3>
+<span id="get-apinumerosnumero">
 
-##### Descrição
+### 5.2.2. GET /simfonia/api/numerostelefonicos/numero
+
+#### Descrição
 
 Recupera um número telefônico pelo número.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```json
 {
@@ -475,13 +529,15 @@ Recupera um número telefônico pelo número.
 }
 ```
 
-<h4 id="get-apinumerossimcardid">GET /simfonia/api/numerostelefonicos/simcard/:id</h3>
+<span id="get-apinumerossimcardid">
 
-##### Descrição
+### 5.2.3. GET /simfonia/api/numerostelefonicos/simcard/:id
+
+#### Descrição
 
 Recupera um número de telefone pelo id do SimCard correspondente.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```http
 GET /simfonia/api/numerostelefonicos/simcard/235
@@ -514,7 +570,9 @@ GET /simfonia/api/numerostelefonicos/simcard/235
 }
 ```
 
-<h4 id="get-apinumerossimcard">GET /simfonia/api/numerostelefonicos/simcard</h3>
+<span id="get-apinumerossimcard">
+
+### 5.2.4. GET /simfonia/api/numerostelefonicos/simcard
 
 ##### Descrição
 
@@ -553,13 +611,15 @@ Recupera um número de telefone pelo objeto do SimCard correspondente.
 }
 ```
 
-<h4 id="get-apiallnumeros">GET /simfonia/api/numerostelefonicos/</h3>
+<span id="get-apiallnumeros">
 
-##### Descrição
+### 5.2.5. GET /simfonia/api/numerostelefonicos/
+
+#### Descrição
 
 Recupera todos os números telefônicos do banco.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```http
 GET simfonia/api/numerostelefonicos/
@@ -616,19 +676,21 @@ GET simfonia/api/numerostelefonicos/
 ]
 ```
 
-<h4 id="get-apiallnumeroscsv">GET /simfonia/api/numerostelefonicos/csv</h3>
+<span id="get-apiallnumeroscsv">
 
-##### Descrição
+### 5.2.6. GET /simfonia/api/numerostelefonicos/csv
+
+#### Descrição
 
 Recupera todos os números telefônicos do banco e exporta em um arquivo `.csv`.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```http
 GET /simfonia/api/numerostelefonicos/csv
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```csv
     ID,CodArea,Numero,Utilizavel,PortadoIn,PortadoInOperadora,PortadoInDate,CodigoCnl,CongeladoAte,ExternalID,PortadoOut,PortadoOutOperadora,PortadoOutDate,DataCriacao,SimCardID,PortadoInOperadoraID,PortadoOutOperadoraID
@@ -645,13 +707,15 @@ GET /simfonia/api/numerostelefonicos/csv
 
 ```
 
-<h4 id="post-apicreatenumero">POST /simfonia/api/numerostelefonicos/</h3>
+<span id="post-apicreatenumero">
 
-##### Descrição
+### 5.2.7. POST /simfonia/api/numerostelefonicos/
+
+#### Descrição
 
 Cria um novo número telefônico.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```json
 {
@@ -704,13 +768,15 @@ Cria um novo número telefônico.
 }
 ```
 
-<h4 id="post-apicreatenumerocsv">POST /simfonia/api/numerostelefonicos/csv</h3>
+<span id="post-apicreatenumerocsv">
 
-##### Descrição
+### 5.2.8. POST /simfonia/api/numerostelefonicos/csv
+
+#### Descrição
 
 Cria novos números telefônicos em lote, baseados em um arquivo `.csv`.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```csv
     CodArea,Numero,Utilizavel,PortadoIn,PortadoInOperadora,PortadoInDate,CodigoCnl,CongeladoAte,ExternalID,PortadoOut,PortadoOutOperadora,PortadoOutDate,DataCriacao,SimCardID,PortadoInOperadoraID,PortadoOutOperadoraID
@@ -730,7 +796,7 @@ Cria novos números telefônicos em lote, baseados em um arquivo `.csv`.
     csv: *arquivo*
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```json
 {
@@ -738,13 +804,15 @@ Cria novos números telefônicos em lote, baseados em um arquivo `.csv`.
 }
 ```
 
-<h4 id="put-apiupdatenumero">PUT /simfonia/api/numerostelefonicos/:id</h3>
+<span id="put-apiupdatenumero">
 
-##### Descrição
+### 5.2.9. PUT /simfonia/api/numerostelefonicos/:id
+
+#### Descrição
 
 Atualiza um número telefônico existente pelo ID.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```http
     PUT /simfonia/api/numerostelefonicos/:id
@@ -774,7 +842,7 @@ Atualiza um número telefônico existente pelo ID.
 }
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```json
 {
@@ -801,19 +869,21 @@ Atualiza um número telefônico existente pelo ID.
 }
 ```
 
-<h4 id="delete-apideletenumeroid">DELETE /simfonia/api/numerostelefonicos/:id</h3>
+<span id="delete-apideletenumeroid">
 
-##### Descrição
+### 5.2.10. DELETE /simfonia/api/numerostelefonicos/:id</h3>
+
+#### Descrição
 
 Exclui um número telefônico pelo ID.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```http
 DELETE /simfonia/api/numerostelefonicos/8
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```json
 {
@@ -821,11 +891,15 @@ DELETE /simfonia/api/numerostelefonicos/8
 }
 ```
 
-<h3 id="operadoras">Operadoras</h3>
+<span id="operadoras">
 
-<h4 id="get-apioperadorasid">GET /simfonia/api/operadoras/:id</h3>
+## 5.3 Operadoras
 
-##### Descrição
+<span id="get-apioperadorasid">
+
+### 5.3.1. GET /simfonia/api/operadoras/:id</h3>
+
+#### Descrição
 
 Recupera uma operadora pelo ID.
 
@@ -847,13 +921,15 @@ GET /simfonia/api/operadora/3
 }
 ```
 
-<h4 id="get-apioperadorasnome">GET /simfonia/api/operadoras/nome</h3>
+<span id="get-apioperadorasnome">
 
-##### Descrição
+### 5.3.2. GET /simfonia/api/operadoras/nome
+
+#### Descrição
 
 Recupera uma operadora pelo nome completo.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```json
 {
@@ -873,13 +949,15 @@ Recupera uma operadora pelo nome completo.
 }
 ```
 
-<h4 id="get-apioperadorasabreviacao">GET /simfonia/api/operadoras/abreviacao</h3>
+<span id="get-apioperadorasabreviacao">
 
-##### Descrição
+### 5.3.3. GET /simfonia/api/operadoras/abreviacao
+
+#### Descrição
 
 Recupera uma operadora pelo nome abreviado.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```json
 {
@@ -899,19 +977,21 @@ Recupera uma operadora pelo nome abreviado.
 }
 ```
 
-<h4 id="get-apialloperadoras">GET /simfonia/api/operadoras/</h3>
+<span id="get-apialloperadoras">
 
-##### Descrição
+### 5.3.4. GET /simfonia/api/operadoras/
+
+#### Descrição
 
 Recupera todas as operadoras existentes no banco de dados.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```http
     /simfonia/api/operadoras/
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```json
 [
@@ -932,19 +1012,21 @@ Recupera todas as operadoras existentes no banco de dados.
 ]
 ```
 
-<h4 id="get-apialloperadorascsv">GET /simfonia/api/operadoras/csv</h3>
+<span id="get-apialloperadorascsv">
 
-##### Descrição
+### 5.3.5. GET /simfonia/api/operadoras/csv</h3>
+
+#### Descrição
 
 Recupera todas as operadoras do banco e exporta em um arquivo `.csv`.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```http
 GET /simfonia/api/operadoras/csv
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```csv
     ID,UUID,Nome,CodIBGE,UF,CodArea
@@ -953,13 +1035,15 @@ GET /simfonia/api/operadoras/csv
 
 ```
 
-<h4 id="post-apicreateoperadoras">POST /simfonia/api/operadoras/</h3>
+<span id="post-apicreateoperadoras">
 
-##### Descrição
+### 5.3.6. POST /simfonia/api/operadoras/
+
+#### Descrição
 
 Cria uma nova operadora.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```json
 {
@@ -980,13 +1064,15 @@ Cria uma nova operadora.
 }
 ```
 
-<h4 id="post-apicreateoperadorascsv">POST /simfonia/api/operadoras/csv</h3>
+<span id="post-apicreateoperadorascsv">
 
-##### Descrição
+### 5.3.7. POST /simfonia/api/operadoras/csv
+
+#### Descrição
 
 Cria novas operadoras em lote, baseadas em um arquivo `.csv`.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```csv
     UUID,Nome,CodIBGE,UF,CodArea
@@ -998,21 +1084,22 @@ Cria novas operadoras em lote, baseadas em um arquivo `.csv`.
     csv: *arquivo*
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```json
 {
     "mensagem": "Arquivo carregado e processado com sucesso!"
 }
 ```
+<span id="put-apiupdateoperadoras">
 
-<h4 id="put-apiupdateoperadoras">PUT /simfonia/api/operadoras/:id</h3>
+### 5.3.8. PUT /simfonia/api/operadoras/:id
 
-##### Descrição
+#### Descrição
 
 Atualiza uma operadora existente pelo ID.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```http
     PUT /simfonia/api/operadoras/4
@@ -1025,7 +1112,7 @@ Atualiza uma operadora existente pelo ID.
 }
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```json
 {
@@ -1037,19 +1124,21 @@ Atualiza uma operadora existente pelo ID.
 }
 ```
 
-<h4 id="delete-apideleteoperadorasid">DELETE /simfonia/api/operadoras/:id</h3>
+<span id="delete-apideleteoperadorasid">
 
-##### Descrição
+### 5.3.9. DELETE /simfonia/api/operadoras/:id</h3>
+
+#### Descrição
 
 Exclui uma operadora pelo ID.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```http
 DELETE /simfonia/api/operadoras/4
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```json
 {
@@ -1057,11 +1146,15 @@ DELETE /simfonia/api/operadoras/4
 }
 ```
 
-<h3 id="simCard">SimCard</h3>
+<span id="simCard">
 
-<h4 id="get-apisimcardid">GET /simfonia/api/simcard/:id</h3>
+## 5.4. SimCard
 
-##### Descrição
+<span id="get-apisimcardid">
+
+### 5.4.1. GET /simfonia/api/simcard/:id
+
+#### Descrição
 
 Recupera um SimCard pelo ID.
 
@@ -1092,13 +1185,15 @@ GET /simfonia/api/simCard/226
 }
 ```
 
-<h4 id="get-apisimcardnumeroid">GET /simfonia/api/simcard/telefonianumero/:id</h3>
+<span id="get-apisimcardnumeroid">
 
-##### Descrição
+### 5.4.2 GET /simfonia/api/simcard/telefonianumero/:id
+
+#### Descrição
 
 Recupera um SimCard pelo id do número de telefone correspondente.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```http
     GET /simfonia/api/simcard/telefonianumero/7
@@ -1125,15 +1220,17 @@ Recupera um SimCard pelo id do número de telefone correspondente.
 }
 ```
 
-<h4 id="get-apisimcardnumero">GET /simfonia/api/simcard/telefonianumero</h3>
+<span id="get-apisimcardnumero">
 
-##### Descrição
+### 5.4.3. GET /simfonia/api/simcard/telefonianumero
+
+#### Descrição
 
 Recupera um SimCard pelo objeto do número de telefone correspondente.
 
 <!-- Acredito que seja legal colocar como se fosse o ID, mas com o número do número, não o objeto inteiro -->
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```json
 {
@@ -1181,19 +1278,21 @@ Recupera um SimCard pelo objeto do número de telefone correspondente.
 }
 ```
 
-<h4 id="get-apiallsimcard">GET /simfonia/api/simcard/</h3>
+<span id="get-apiallsimcard">
 
-##### Descrição
+### 5.4.4. GET /simfonia/api/simcard/
+
+#### Descrição
 
 Recupera todos os SimCards existentes no banco de dados.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```http
     GET /simfonia/api/simcard/
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```json
 [
@@ -1232,19 +1331,21 @@ Recupera todos os SimCards existentes no banco de dados.
 ]
 ```
 
-<h4 id="get-apiallsimcardcsv">GET /simfonia/api/simcard/csv</h3>
+<span id="get-apiallsimcardcsv">
 
-##### Descrição
+### 5.4.5. GET /simfonia/api/simcard/csv
+
+#### Descrição
 
 Recupera todos os SimCards do banco e exporta em um arquivo `.csv`.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```http
 GET /simfonia/api/simcard/csv
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```csv
     "id","iccid","imsi","pin","puk","ki","opc","estado_id","telefonia_numero_id","data_criacao","data_estado","atualizado_em","puk2","pin2"
@@ -1260,13 +1361,15 @@ GET /simfonia/api/simcard/csv
 
 ```
 
-<h4 id="post-apicreateosimcard">POST /simfonia/api/simcard/</h3>
+<span id="post-apicreatesimcard">
 
-##### Descrição
+### 5.4.6. POST /simfonia/api/simcard/
+
+#### Descrição
 
 Cria um novo SimCard.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```json
 {
@@ -1307,13 +1410,15 @@ Cria um novo SimCard.
 }
 ```
 
-<h4 id="post-apicreatesimcardcsv">POST /simfonia/api/simcard/csv</h3>
+<span id="post-apicreatesimcardcsv">
 
-##### Descrição
+### 5.4.7. POST /simfonia/api/simcard/csv</h3>
+
+#### Descrição
 
 Cria novos SimCards em lote, baseados em um arquivo `.csv`.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```csv
     "iccid","imsi","pin","puk","ki","opc","estado_id","telefonia_numero_id","data_criacao","data_estado","atualizado_em","puk2","pin2"
@@ -1332,7 +1437,7 @@ Cria novos SimCards em lote, baseados em um arquivo `.csv`.
     csv: *arquivo*
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```json
 {
@@ -1340,13 +1445,15 @@ Cria novos SimCards em lote, baseados em um arquivo `.csv`.
 }
 ```
 
-<h4 id="put-apiupdatesimcard">PUT /simfonia/api/simcard/:id</h3>
+<span id="put-apiupdatesimcard">
 
-##### Descrição
+### 5.4.8. PUT /simfonia/api/simcard/:id
+
+#### Descrição
 
 Atualiza um SimCard existente pelo ID.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```http
     PUT /simfonia/api/simcard/227
@@ -1370,7 +1477,7 @@ Atualiza um SimCard existente pelo ID.
 }
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```json
 {
@@ -1391,19 +1498,21 @@ Atualiza um SimCard existente pelo ID.
 }
 ```
 
-<h4 id="delete-apideletesimcardid">DELETE /simfonia/api/simcard/:id</h3>
+<span id="delete-apideletesimcardid">
 
-##### Descrição
+### 5.4.9. DELETE /simfonia/api/simcard/:id
+
+#### Descrição
 
 Exclui um SimCard pelo ID.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```http
 DELETE /simfonia/api/simcard/227
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```json
 {
@@ -1411,11 +1520,15 @@ DELETE /simfonia/api/simcard/227
 }
 ```
 
-<h3 id="simCard-estados">Estados SimCard</h3>
+<span id="simCard-estados">
 
-<h4 id="get-apisimcardestadoid">GET /simfonia/api/simcardestado/:id</h3>
+## 5.5 Estados SimCard
 
-##### Descrição
+<span id="get-apisimcardestadoid">
+
+### 5.5.1. GET /simfonia/api/simcardestado/:id
+
+#### Descrição
 
 Recupera um Estado de SimCard pelo ID.
 
@@ -1436,13 +1549,15 @@ GET /simfonia/api/simcardestado/4
 }
 ```
 
-<h4 id="get-apisimcardestadoestado">GET /simfonia/api/simcardestado/estado</h3>
+<span id="get-apisimcardestadoestado">
 
-##### Descrição
+### 5.5.2. GET /simfonia/api/simcardestado/estado
+
+#### Descrição
 
 Recupera um Estado de SimCard pelo nome do estado.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```json
 {
@@ -1461,19 +1576,21 @@ Recupera um Estado de SimCard pelo nome do estado.
 }
 ```
 
-<h4 id="get-apiallsimcardestado">GET /simfonia/api/simcardestado/</h3>
+<span id="get-apiallsimcardestado">
 
-##### Descrição
+## 5.5.3. GET /simfonia/api/simcardestado/
+
+#### Descrição
 
 Recupera todos os Estados de SimCards existentes no banco de dados.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```http
     GET /simfonia/api/simcard/
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```json
 [
@@ -1498,19 +1615,21 @@ Recupera todos os Estados de SimCards existentes no banco de dados.
 ]
 ```
 
-<h4 id="get-apiallsimcardestadocsv">GET /simfonia/api/simcardestado/csv</h3>
+<span id="get-apiallsimcardestadocsv">
 
-##### Descrição
+### 5.5.4. GET /simfonia/api/simcardestado/csv
+
+#### Descrição
 
 Recupera todos os Estados de SimCards do banco e exporta em um arquivo `.csv`.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```http
     GET /simfonia/api/simcardestado/csv
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```csv
     ID,Estado,Descricao
@@ -1520,13 +1639,15 @@ Recupera todos os Estados de SimCards do banco e exporta em um arquivo `.csv`.
 
 ```
 
-<h4 id="post-apicreateosimcardestado">POST /simfonia/api/simcardestado/</h3>
+<span id="post-apicreatesimcardestado">
 
-##### Descrição
+### 5.5.5. POST /simfonia/api/simcardestado/
+
+#### Descrição
 
 Cria um novo Estado de SimCard.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```json
 {
@@ -1546,13 +1667,15 @@ Cria um novo Estado de SimCard.
 }
 ```
 
-<h4 id="post-apicreatesimcardestadocsv">POST /simfonia/api/simcardestado/csv</h3>
+<span id="post-apicreatesimcardestadocsv">
 
-##### Descrição
+### 5.5.6. POST /simfonia/api/simcardestado/csv
+
+#### Descrição
 
 Cria novos Estados de SimCards em lote, baseados em um arquivo `.csv`.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```csv
     Estado,Descricao
@@ -1565,7 +1688,7 @@ Cria novos Estados de SimCards em lote, baseados em um arquivo `.csv`.
     csv: *arquivo*
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```json
 {
@@ -1573,14 +1696,16 @@ Cria novos Estados de SimCards em lote, baseados em um arquivo `.csv`.
 }
 ```
 
-<h4 id="put-apiupdatesimcardestado">PUT /simfonia/api/simcardestado/:id</h3>
+<span id="put-apiupdatesimcardestado">
 
-##### Descrição
+### 5.5.7. PUT /simfonia/api/simcardestado/:id
+
+#### Descrição
 
 Atualiza um Estado de SimCard existente pelo ID.
 Atualiza um Estado de SimCard existente pelo ID.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```http
     PUT /simfonia/api/simcard/6
@@ -1593,7 +1718,7 @@ Atualiza um Estado de SimCard existente pelo ID.
 }
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```json
 {
@@ -1604,19 +1729,21 @@ Atualiza um Estado de SimCard existente pelo ID.
 }
 ```
 
-<h4 id="delete-apideletesimcardestadoid">DELETE /simfonia/api/simcardestado/:id</h3>
+<span id="delete-apideletesimcardestadoid">
 
-##### Descrição
+### 5.5.8. DELETE /simfonia/api/simcardestado/:id
+
+#### Descrição
 
 Exclui um Estado de SimCard pelo ID.
 
-##### Exemplo de Requisição
+#### Exemplo de Requisição
 
 ```http
 DELETE /simfonia/api/simcardestado/6
 ```
 
-##### Exemplo de Resposta
+#### Exemplo de Resposta
 
 ```json
 {
@@ -1624,9 +1751,15 @@ DELETE /simfonia/api/simcardestado/6
 }
 ```
 
-## Modelos de Dados
+<br />
 
-<h3 id="modelo-cidade">Cidades</h3>
+<span id="modelos-de-dados">
+
+## 6. Modelos de Dados
+
+<span id="modelo-cidade">
+
+### 6.1. Cidades
 
 O modelo `Cidade` está definido no arquivo `model/cidades.go`.
 
@@ -1652,7 +1785,9 @@ func (Cidade) TableName() string {
 
 ```
 
-<h3 id="modelo-numerotelefonico">Números Telefonicos</h3>
+<span id="modelo-numerotelefonico">
+
+### 6.2. Números Telefonicos
 
 O modelo `NumeroTelefonico` está definido no arquivo `model/numerosTelefonicos.go`.
 
@@ -1692,7 +1827,9 @@ func (NumeroTelefonico) TableName() string {
 
 ```
 
-<h3 id="modelo-operadoras">Operadoras</h3>
+<span id="modelo-operadoras">
+
+### 6.3 Operadoras
 
 O modelo `Operadora` está definido no arquivo `model/operadoras.go`.
 
@@ -1713,7 +1850,9 @@ func (Operadora) TableName() string {
 
 ```
 
-<h3 id="modelo-simcards">SimCards</h3>
+<span id="modelo-simcards">
+
+### 6.4. SimCards
 
 O modelo `SimCard` está definido no arquivo `model/simCard.go`.
 
@@ -1749,7 +1888,9 @@ func (SimCard) TableName() string {
 
 ```
 
-<h3 id="modelo-simcardestado">Estados SimCards</h3>
+<span id="modelo-simcardestado">
+
+### 6.5. Estados SimCards
 
 O modelo `SimCardEstado` está definido no arquivo `model/simCardEstado.go`.
 
@@ -1768,9 +1909,15 @@ func (SimCardEstado) TableName() string {
 }
 ```
 
-## Serviços
+<br />
 
-<h3 id="cidadeService">CidadeService</h3>
+<span id="servicos">
+
+## 7. Serviços
+
+<span id="cidadeService">
+
+### 7.1 CidadeService
 
 Os serviços relacionados às cidades estão definidos no arquivo `service/cidadesService.go`.
 
@@ -1782,7 +1929,9 @@ Os serviços relacionados às cidades estão definidos no arquivo `service/cidad
 - **DeleteCidadeById(id uint64)**: Exclui uma cidade pelo ID.
 - **validateCidade(cidade model.Cidade)**: Valida se o objeto cidade está de acordo com as restrições da tabela.
 
-<h3 id="numerosTelefonicosService">NumeroTelefonicoService</h3>
+<span id="numerosTelefonicosService">
+
+### 7.2. NumeroTelefonicoService
 
 Os serviços relacionados aos números telefônicos estão definidos no arquivo `service/numerosTelefonicos.go`.
 
@@ -1795,7 +1944,9 @@ Os serviços relacionados aos números telefônicos estão definidos no arquivo 
 - **DeleteNumeroTelefonicoById(id uint64)**: Exclui um número telefônico pelo ID.
 - **validateNumeroTelefonico(numeroTelefonico model.NumeroTelefonico)**: Valida se o objeto numeroTelefonico está de acordo com as restrições da tabela.
 
-<h3 id="operadorasService">OperadoraService</h3>
+<span id="operadorasService">
+
+### 7.3. OperadoraService
 
 Os serviços relacionados às operadoras estão definidos no arquivo `service/operadorasService.go`.
 
@@ -1808,7 +1959,9 @@ Os serviços relacionados às operadoras estão definidos no arquivo `service/op
 - **DeleteOperadoraById(id uint64)**: Exclui uma operadora pelo ID.
 - **validateOperadora(operadora model.Operadora)**: Valida se o objeto operadora está de acordo com as restrições da tabela.
 
-<h3 id="simCardService">SimCardService</h3>
+<span id="simCardService">
+
+### 7.4. SimCardService
 
 Os serviços relacionados ao usuário estão definidos no arquivo `service/simCardService.go`.
 
@@ -1820,7 +1973,9 @@ Os serviços relacionados ao usuário estão definidos no arquivo `service/simCa
 - **DeleteSimCardById(id uint64)**: Exclui um SimCard pelo ID.
 - **validateSimCard(simCard model.SimCard)**: Valida se o objeto simCard está de acordo com as restrições da tabela.
 
-<h3 id="simCardEstadoService">SimCardEstadoService</h3>
+<span id="simCardEstadoService">
+
+### 7.5. SimCardEstadoService
 
 Os serviços relacionados ao usuário estão definidos no arquivo `service/cidadesService.go`.
 
@@ -1832,7 +1987,11 @@ Os serviços relacionados ao usuário estão definidos no arquivo `service/cidad
 - **DeleteSimCardEstadoById(id uint64)**: Exclui um Estado de SimCard pelo ID.
 - **validateSimCardEstado(simCardEstado model.SimCardEstado)**: Valida se o objeto simCardEstado está de acordo com as restrições da tabela.
 
-## Controladores
+<br />
+
+<span id="controladores">
+
+## 8. Controladores
 
 Os controladores estão definidos nos arquivos abaixo:
 
@@ -1851,7 +2010,11 @@ E possuem os seguintes métodos:
 - **InitRoutes()**: Inicializa as rotas da API.
 - Todos os outros métodos recebem `context *gin.Context` como parâmetro e são todos aqueles já citados nos endpoints da API.
 
-## Instruções para Execução
+<br />
+
+<span id="instrucoes-para-execucao">
+
+## 9. Instruções para Execução
 
 ### Pré-requisitos
 
