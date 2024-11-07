@@ -1,106 +1,84 @@
 # Documentação da API Simfonia em Golang com Gin
 
-## Sumário
+<br />
+
+## Índice
 
 1. [Introdução](#introducao)
 2. [Estrutura do Projeto](#estrutura-do-projeto)
 3. [Configuração](#configuracao)
-    - [Banco de Dados](#banco-de-dados)
-    - [Docker Compose](#docker-compose)
+    - 3.1 [Banco de Dados](#banco-de-dados)
+    - 3.2 [Docker Compose](#docker-compose)
 4. [Endpoints da API](#endpoints-da-api)
-    <details>
-    <summary>Subíndices</summary>
-    1. [Cidades](#cidades)
-        <details>
-        <summary>Subíndices</summary>
-        - [GET /simfonia/api/cidades/:id](#get-apicidadeid)
-        - [GET /simfonia/api/cidades/nome](#get-apicidadenome)
-        - [GET /simfonia/api/cidades/](#get-apiallcidades)
-        - [GET /simfonia/api/cidades/csv](#get-apiallcidadescsv)
-        - [POST /simfonia/api/cidades/](#post-apicreatecidade)
-        - [POST /simfonia/api/cidades/csv](#post-apicreatecidadecsv)
-        - [PUT /simfonia/api/cidades/:id](#put-apiupdatecidade)
-        - [DELETE /simfonia/api/cidades/:id](#delete-apideletecidadeid)
-        </details>   
-    2. [Números Telefônicos](#numeros-telefonicos)
-        <details>
-        <summary>Subíndices</summary>
-        - [GET /simfonia/api/numerostelefonicos/:id](#get-apinumerosid)
-        - [GET /simfonia/api/numerostelefonicos/numero](#get-apinumerosnumero)
-        - [GET /simfonia/api/numerostelefonicos/simcard/:id](#get-apinumerossimcardid)
-        - [GET /simfonia/api/numerostelefonicos/simcard](#get-apinumerossimcard)
-        - [GET /simfonia/api/numerostelefonicos/](#get-apiallnumeros)
-        - [GET /simfonia/api/numerostelefonicos/csv](#get-apiallnumeroscsv)
-        - [POST /simfonia/api/numerostelefonicos/](#post-apicreatenumero)
-        - [POST /simfonia/api/numerostelefonicos/csv](#post-apicreatenumerocsv)
-        - [PUT /simfonia/api/numerostelefonicos/:id](#put-apiupdatenumero)
-        - [DELETE /simfonia/api/numerostelefonicos/:id](#delete-apideletenumeroid)
-        </details>
-    3. [Operadoras](#operadoras)
-        <details>
-        <summary>Subíndices</summary>
-        - [GET /simfonia/api/operadoras/:id](#get-apioperadorasid)
-        - [GET /simfonia/api/operadoras/nome](#get-apioperadorasnome)
-        - [GET /simfonia/api/operadoras/abreviacao](#get-apioperadorasabreviacao)
-        - [GET /simfonia/api/operadoras/](#get-apialloperadoras)
-        - [GET /simfonia/api/operadoras/csv](#get-apialloperadorascsv)
-        - [POST /simfonia/api/operadoras/](#post-apicreateoperadoras)
-        - [POST /simfonia/api/operadoras/csv](#post-apicreateoperadorascsv)
-        - [PUT /simfonia/api/operadoras/:id](#put-apiupdateoperadoras)
-        - [DELETE /simfonia/api/operadoras/:id](#delete-apideleteoperadorasid)
-        </details>
-    4. [SimCard](#simCard)
-        <details>
-        <summary>Subíndices</summary>
-        - [GET /simfonia/api/simcard/:id](#get-apisimcardid)
-        - [GET /simfonia/api/simcard/telefonianumero/:id](#get-apisimcardnumeroid)
-        - [GET /simfonia/api/simcard/telefonianumero](#get-apisimcardnumero)
-        - [GET /simfonia/api/simcard/](#get-apiallsimcard)
-        - [GET /simfonia/api/simcard/csv](#get-apiallsimcardcsv)
-        - [POST /simfonia/api/simcard/](#post-apicreateosimcard)
-        - [POST /simfonia/api/simcard/csv](#post-apicreatesimcardcsv)
-        - [PUT /simfonia/api/simcard/:id](#put-apiupdatesimcard)
-        - [DELETE /simfonia/api/simcard/:id](#delete-apideletesimcardid)
-        </details>
-    5. [Estados SimCard](#simCard-estados)
-        <details>
-        <summary>Subíndices</summary>
-        - [GET /simfonia/api/simcardestado/:id](#get-apisimcardestadoid)
-        - [GET /simfonia/api/simcardestado/estado](#get-apisimcardestadoestado)
-        - [GET /simfonia/api/simcardestado/](#get-apiallsimcardestado)
-        - [GET /simfonia/api/simcardestado/csv](#get-apiallsimcardestadocsv)
-        - [POST /simfonia/api/simcardestado/](#post-apicreateosimcardestado)
-        - [POST /simfonia/api/simcardestado/csv](#post-apicreatesimcardestadocsv)
-        - [PUT /simfonia/api/simcardestado/:id](#put-apiupdatesimcardestado)
-        - [DELETE /simfonia/api/simcardestado/:id](#delete-apideletesimcardestadoid)
-        </details>
-    </details>    
+   - 4.1. [Cidades](#cidades)
+        - 4.1.1. [GET /simfonia/api/cidades/:id](#get-apicidadeid)
+        - 4.1.2. [GET /simfonia/api/cidades/nome](#get-apicidadenome)
+        - 4.1.3. [GET /simfonia/api/cidades/](#get-apiallcidades)
+        - 4.1.4. [GET /simfonia/api/cidades/csv](#get-apiallcidadescsv)
+        - 4.1.5. [POST /simfonia/api/cidades/](#post-apicreatecidade)
+        - 4.1.6. [POST /simfonia/api/cidades/csv](#post-apicreatecidadecsv)
+        - 4.1.7. [PUT /simfonia/api/cidades/:id](#put-apiupdatecidade)
+        - 4.1.8. [DELETE /simfonia/api/cidades/:id](#delete-apideletecidadeid)
+    - 4.2. [Números Telefônicos](#numeros-telefonicos)
+        - 4.2.1. [GET /simfonia/api/numerostelefonicos/:id](#get-apinumerosid)
+        - 4.2.2. [GET /simfonia/api/numerostelefonicos/numero](#get-apinumerosnumero)
+        - 4.2.3. [GET /simfonia/api/numerostelefonicos/simcard/:id](#get-apinumerossimcardid)
+        - 4.2.4. [GET /simfonia/api/numerostelefonicos/simcard](#get-apinumerossimcard)
+        - 4.2.5. [GET /simfonia/api/numerostelefonicos/](#get-apiallnumeros)
+        - 4.2.6. [GET /simfonia/api/numerostelefonicos/csv](#get-apiallnumeroscsv)
+        - 4.2.7. [POST /simfonia/api/numerostelefonicos/](#post-apicreatenumero)
+        - 4.2.8. [POST /simfonia/api/numerostelefonicos/csv](#post-apicreatenumerocsv)
+        - 4.2.9. [PUT /simfonia/api/numerostelefonicos/:id](#put-apiupdatenumero)
+        - 4.2.10. [DELETE /simfonia/api/numerostelefonicos/:id](#delete-apideletenumeroid)
+    - 4.3. [Operadoras](#operadoras)
+        - 4.3.1. [GET /simfonia/api/operadoras/:id](#get-apioperadorasid)
+        - 4.3.2. [GET /simfonia/api/operadoras/nome](#get-apioperadorasnome)
+        - 4.3.3. [GET /simfonia/api/operadoras/abreviacao](#get-apioperadorasabreviacao)
+        - 4.3.4. [GET /simfonia/api/operadoras/](#get-apialloperadoras)
+        - 4.3.5. [GET /simfonia/api/operadoras/csv](#get-apialloperadorascsv)
+        - 4.3.6. [POST /simfonia/api/operadoras/](#post-apicreateoperadoras)
+        - 4.3.7. [POST /simfonia/api/operadoras/csv](#post-apicreateoperadorascsv)
+        - 4.3.8. [PUT /simfonia/api/operadoras/:id](#put-apiupdateoperadoras)
+        - 4.3.9 [DELETE /simfonia/api/operadoras/:id](#delete-apideleteoperadorasid)
+    - 4.4. [SimCard](#simCard)
+        - 4.4.1. [GET /simfonia/api/simcard/:id](#get-apisimcardid)
+        - 4.4.2. [GET /simfonia/api/simcard/telefonianumero/:id](#get-apisimcardnumeroid)
+        - 4.4.3. [GET /simfonia/api/simcard/telefonianumero](#get-apisimcardnumero)
+        - 4.4.4. [GET /simfonia/api/simcard/](#get-apiallsimcard)
+        - 4.4.5. [GET /simfonia/api/simcard/csv](#get-apiallsimcardcsv)
+        - 4.4.6. [POST /simfonia/api/simcard/](#post-apicreateosimcard)
+        - 4.4.7. [POST /simfonia/api/simcard/csv](#post-apicreatesimcardcsv)
+        - 4.4.8. [PUT /simfonia/api/simcard/:id](#put-apiupdatesimcard)
+        - 4.4.9. [DELETE /simfonia/api/simcard/:id](#delete-apideletesimcardid)   
+    - 4.5. [Estados SimCard](#simCard-estados)
+        - 4.5.1. [GET /simfonia/api/simcardestado/:id](#get-apisimcardestadoid)
+        - 4.5.2. [GET /simfonia/api/simcardestado/estado](#get-apisimcardestadoestado)
+        - 4.5.3. [GET /simfonia/api/simcardestado/](#get-apiallsimcardestado)
+        - 4.5.4. [GET /simfonia/api/simcardestado/csv](#get-apiallsimcardestadocsv)
+        - 4.5.5. [POST /simfonia/api/simcardestado/](#post-apicreateosimcardestado)
+        - 4.5.6. [POST /simfonia/api/simcardestado/csv](#post-apicreatesimcardestadocsv)
+        - 4.5.7. [PUT /simfonia/api/simcardestado/:id](#put-apiupdatesimcardestado)
+        - 4.5.8. [DELETE /simfonia/api/simcardestado/:id](#delete-apideletesimcardestadoid)   
 5. [Modelos de Dados](#modelos-de-dados)
-    <details>
-    <summary>Subíndices</summary>
-    - [Cidades](#modelo-cidade)
-    - [Números Telefônicos](#modelo-numerotelefonico)
-    - [Operadoras](#modelo-operadoras)
-    - [SimCards](#modelo-simcards)
-    - [Estados SimCards](#modelo-simcardestado)
-    </details>
+    - 5.1. [Cidades](#modelo-cidade)
+    - 5.2. [Números Telefônicos](#modelo-numerotelefonico)
+    - 5.3. [Operadoras](#modelo-operadoras)
+    - 5.4. [SimCards](#modelo-simcards)
+    - 5.5. [Estados SimCards](#modelo-simcardestado)
 6. [Serviços](#serviços)
-    <details>
-    <summary>Subíndices</summary>
-    - [CidadeService](#cidadeService)
-    - [NumeroTelefonicoService](#numerosTelefonicosService)
-    - [OperadoraService](#operadorasService)
-    - [SimCardService](#simCardService)
-    - [SimCardEstadoService](#simCardEstadoService)
-    </details>
+    - 6.1. [CidadeService](#cidadeService)
+    - 6.2. [NumeroTelefonicoService](#numerosTelefonicosService)
+    - 6.3. [OperadoraService](#operadorasService)
+    - 6.4. [SimCardService](#simCardService)
+    - 6.5. [SimCardEstadoService](#simCardEstadoService)
 7. [Controladores](#controladores)
 8. [Instruções para Execução](#instruções-para-execução)
 
-<h2 id="introducao">Introdução</h3>
+<h2>1. Introdução</h3>
 
 Esta documentação descreve uma API CRUD desenvolvida em Golang usando o framework Gin. A API permite criar, ler, atualizar e excluir usuários em um banco de dados PostgreSQL.
 
-<h2 id="estrutura-do-projeto">Estrutura do Projeto</h3>
+<h2>2. Estrutura do Projeto</h3>
 
 ```plaintext
 app/
